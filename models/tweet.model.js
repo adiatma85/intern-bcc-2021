@@ -6,9 +6,6 @@ module.exports = (sequelize, Sequelize) => {
         content: {
             type: Sequelize.STRING
         },
-        created_at: {
-            type: Sequelize.DATE
-        }
     })
     return tweet;
 }

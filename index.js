@@ -6,6 +6,7 @@ const cors = require('cors');
 const db = require('./models')
 
 
+
 app.use(cors({ origin: "http://localhost:8000" }))
 
 app.use(bodyParser.json())
@@ -22,8 +23,11 @@ app.get("/", (_, res) => {
     )
 })
 
+// Defining routes
+require('./routes/tweet.routes')(app)
+
 const PORT = process.env.APP_PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`App is running at port ${PORT}`)
+    console.log(`App is running at port ${PORT}`, ``)
 })
 
