@@ -3,13 +3,8 @@ const Tweet = db.tweets
 // const Op = db.Sequelize.Op
 
 // Create and Save new Tweets
-function create(req, res) {
-    const tweet = {
-        title: req.body.title,
-        content: req.body.content
-    }
-
-    Tweet.create(tweet)
+function create(req, res, next) {
+    Tweet.create(req.body)
         .then(data => {
             res.send(data)
         })
@@ -21,38 +16,35 @@ function create(req, res) {
 }
 
 // Retrive all tweets
-function findAll(req, res) {
+function findAll(req, res, next) {
     var condition = {}
     Tweet.findAll({ where: condition })
         .then(data => res.send(data))
-        .catch(err => res.status(500).send({
-            message: err.message || "Some error occured while creating tweet"
-        }))
+        .catch(err => {
+            next(err)
+            return;
+        })
 }
 
 // Find single instance of tweet
-function findOne(req, res) {
+function findOne(req, res, next) {
     const id = req.params.id
     Tweet.findByPk(id)
         .then(data => {
             if (data == null) {
-                res.status(404).send({
-                    message: "404 not found"
-                })
+                next("The tweet is not found")
+                return;
             }
             res.send(data)
         })
         .catch(err => {
-            res.status(500).send(
-                {
-                    message: err.message || "Some error occured while creating tweet"
-                }
-            )
+            next(err)
+            return
         })
 }
 
 // Update a Tweet
-function update(req, res) {
+function update(req, res, next) {
     const id = req.params.id
 
     Tweet.update(req.body, {
@@ -63,28 +55,25 @@ function update(req, res) {
         .then(num => {
             if (num == 1) {
                 if (num == null) {
-                    res.status(404).send({
-                        message: "404 not found"
-                    })
+                    next("The tweet is not found")
+                    return;
                 }
                 res.send({
-                    message: "Tweet was deleted successfully",
+                    message: "Tweet was updated successfully",
                 })
             } else {
-                res.send({
-                    message: `Cannot deleted Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-                });
+                next(`Cannot update Tweet with id=${id}. Maybe Tweet was not found or req.body is empty!`)
+                return;
             }
         })
         .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occured while update"
-            })
+            next(err)
+            return
         })
 }
 
 // Delete existing tweet
-function _delete(req, res) {
+function _delete(req, res, next) {
     const id = req.params.id
 
     Tweet.destroy({
@@ -96,15 +85,13 @@ function _delete(req, res) {
                     message: "Tweet was deleted successfully!"
                 });
             } else {
-                res.send({
-                    message: `Cannot delete Tweet with id=${id}. Maybe Tweet was not found!`
-                });
+                next("Cannot delete Tweet with id=${id}. Maybe Tweet was not found!")
+                return;
             }
         })
         .catch(err => {
-            res.status(500).send({
-                message: err.message || "Could not delete Tutorial with id=" + id
-            })
+            next(err)
+            return;
         })
 }
 
