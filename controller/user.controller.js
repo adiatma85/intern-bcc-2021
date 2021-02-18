@@ -80,11 +80,6 @@ function update(req, res, next) {
     let token = req.headers.authorization
     token = token.split(' ')[1]
     let payload = jwt.decode(token)
-    console.log(payload)
-    User.findByPk(payload.id)
-        .then( user => {
-            console.log(user)
-        } )
     User.update(req.body, {
         where: {id: payload.id}
     })
