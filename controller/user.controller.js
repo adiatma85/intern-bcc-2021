@@ -18,7 +18,6 @@ function create(req, res, next) {
         })
         .catch(err => {
             if (err.name == 'SequelizeUniqueConstraintError') {
-                console.log('jancok')
                 const failResponse = {
                     success: 'false',
                     error: {

@@ -12,13 +12,17 @@ function joiValidator(req, res, next) {
         stripUnknown: true,
     }
 
-    const route = req.originalUrl
+    let route = req.originalUrl.split('/')
+    route.splice(0, 1)
     const method = req.method.toLowerCase()
+    
 
-    if (_.includes(_supportMethods, method) && _.hasIn(Schemas, '/user/register')) {
+    if (_.includes(_supportMethods, method) && _.hasIn(Schemas, route)) {
         const _schema = _.get(Schemas, route)
+        console.log(Schemas)
 
         if (_schema) {
+            // console.log(_schema)
             const { value, error } = _schema.validate(req.body, _validationOptions)
 
             if (error) {

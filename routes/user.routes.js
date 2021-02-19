@@ -17,7 +17,7 @@ router.get('/users', user.findAll)
 router.get('/:id', jwtMiddleware, user.findOne)
 
 // Update a profile
-router.put('/update', jwtMiddleware, user.update)
+router.put('/update', jwtMiddleware, joiMiddleware, user.update)
 
 // Destroy a profile
 router.delete('/destroy', jwtMiddleware, user.destroy)

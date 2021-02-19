@@ -3,10 +3,8 @@ const tweetValidator = require('./tweet.validator')
 
 module.exports = {
     // User validation
-    '/user/register': userValidator.registerSchema,
-    '/user/login': userValidator.loginSchema,
-    '/user/update': userValidator.updateProfileSchema
+    'user' : userValidator,
 
     // Tweet validation
-    '/tweet/create': tweetValidator.createSchema,
+    'tweet': tweetValidator
 }

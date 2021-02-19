@@ -19,7 +19,14 @@ function create(req, res, _next) {
 function findAll(req, res, next) {
     var condition = {}
     Tweet.findAll({ where: condition })
-        .then(data => res.send(data))
+        .then(data => {
+            if (data.length == 0) {
+                res.send({
+                    message: "No data is existed"
+                })
+            }
+            res.send(data)
+        })
         .catch(err => {
             next(err)
             return;

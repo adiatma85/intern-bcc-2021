@@ -1,7 +1,7 @@
 const joi = require('joi')
 
 // sub schema
-const stringField = joi.string().strict().empty('')
+const stringField = joi.string()
 
 // Create Validator Schema
 const createSchema = joi.object().keys({
@@ -11,11 +11,11 @@ const createSchema = joi.object().keys({
 
 // Update Validator Schema
 const updateSchema = joi.object().keys({
-    title: stringField,
-    content: stringField
+    title: stringField.empty(''),
+    content: stringField.empty('')
 })
 
 module.exports = {
-    createSchema,
-    updateSchema
+    'create': createSchema,
+    'update': updateSchema
 }
