@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        
+
         username: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -30,8 +30,8 @@ module.exports = (sequelize, Sequelize) => {
     }, {
     })
 
-    // In here, we hide the password attribute from model
-    // We still can access the password, but the user can't see it
+    // In here, we hide the password attribute from model instance
+    // We still can access the password, but http req cline (Postman, Insomnia) can't see it
     user.prototype.toJSON = function () {
         var values = Object.assign({}, this.get());
 

@@ -19,10 +19,8 @@ function joiValidator(req, res, next) {
 
     if (_.includes(_supportMethods, method) && _.hasIn(Schemas, route)) {
         const _schema = _.get(Schemas, route)
-        console.log(Schemas)
 
         if (_schema) {
-            // console.log(_schema)
             const { value, error } = _schema.validate(req.body, _validationOptions)
 
             if (error) {

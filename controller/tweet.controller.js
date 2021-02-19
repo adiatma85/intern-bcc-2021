@@ -1,9 +1,10 @@
 const db = require("../models");
 const Tweet = db.tweets
-// const Op = db.Sequelize.Op
 
 // Create and Save new Tweets
 function create(req, res, _next) {
+    console.log(req.user)
+    req.body.userId = req.user.id
     Tweet.create(req.body)
         .then(data => {
             res.send(data)
@@ -47,6 +48,25 @@ function findOne(req, res, next) {
         .catch(err => {
             next(err)
             return
+        })
+}
+
+function findSelfTweet(req, res, next) {
+    let condition = {
+        userId: req.user.id
+    }
+    Tweet.findAll({ where: condition })
+        .then(data => {
+            if (data.length == 0) {
+                res.send({
+                    message: "No data is existed"
+                })
+            }
+            res.send(data)
+        })
+        .catch(err => {
+            next(err)
+            return;
         })
 }
 
@@ -106,6 +126,7 @@ module.exports = {
     create,
     findAll,
     findOne,
+    findSelfTweet,
     update,
     delete: _delete
 }

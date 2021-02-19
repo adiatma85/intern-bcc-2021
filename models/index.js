@@ -18,6 +18,10 @@ const sequelize = new Sequelize(env.DB_NAME, env.DB_USERNAME, env.DB_PASSWORD, {
 const users = require("./user.model")(sequelize, Sequelize)
 const tweets = require("./tweet.model")(sequelize, Sequelize)
 
+// Defining the relationship
+users.hasMany(tweets, { as: "tweets" });
+tweets.belongsTo(users, { foreignKey: 'userId', as: 'user' })
+
 module.exports = {
     Sequelize,
     sequelize,

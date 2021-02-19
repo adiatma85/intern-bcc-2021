@@ -12,6 +12,9 @@ router.post("/create", jwtMiddleware, joiMiddleware, tweet.create);
 // Find One
 router.get("/:id", tweet.findOne);
 
+// Find self tweet
+router.get("/myTweet", jwtMiddleware ,tweet.findSelfTweet)
+
 // Update One
 router.put('/update/:id', jwtMiddleware, joiMiddleware, tweet.update);
 
