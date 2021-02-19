@@ -17,7 +17,7 @@ app.use(cors({ origin: "http://localhost:8000"}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-db.sequelize.sync({});
+db.sequelize.sync({  });
 
 
 // Simple route for testing

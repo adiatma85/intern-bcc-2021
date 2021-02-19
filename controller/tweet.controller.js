@@ -3,7 +3,7 @@ const Tweet = db.tweets
 // const Op = db.Sequelize.Op
 
 // Create and Save new Tweets
-function create(req, res, next) {
+function create(req, res, _next) {
     Tweet.create(req.body)
         .then(data => {
             res.send(data)

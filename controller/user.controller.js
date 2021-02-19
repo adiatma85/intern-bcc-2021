@@ -1,7 +1,8 @@
+const _ = require('lodash')
 const db = require('../models')
 const User = db.users;
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 
 // Register an Account
@@ -13,9 +14,24 @@ function create(req, res, next) {
                 username: data.username
             }
             const token = jwt.sign(payload, process.env.JWT_TOKEN)
-            res.status(200).send({ token })
+            return res.status(200).send({ token })
         })
         .catch(err => {
+            if (err.name == 'SequelizeUniqueConstraintError') {
+                console.log('jancok')
+                const failResponse = {
+                    success: 'false',
+                    error: {
+                        // Fetch
+                        details: _.map(err.errors, ({ message, type }) => ({
+                            message,
+                            type
+                        }))
+                    }
+                };
+                // console.log(failResponse.error)
+                return res.status(422).send(failResponse)
+            }
             return next(err)
         })
 }
@@ -54,7 +70,7 @@ function login(req, res, next) {
 function findAll(_, res, next) {
     User.findAll()
         .then(users => {
-            res.status(200).send({users})
+            res.status(200).send({ users })
         }
         )
         .catch(err => {
@@ -81,7 +97,7 @@ function update(req, res, next) {
     token = token.split(' ')[1]
     let payload = jwt.decode(token)
     User.update(req.body, {
-        where: {id: payload.id}
+        where: { id: payload.id }
     })
         // return number of rows that affected
         .then(num => {

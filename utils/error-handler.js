@@ -1,4 +1,4 @@
-function errorHandler(err, req, res) {
+function errorHandler(err, req, res, _next) {
     // to know what kind of
     console.log(err)
     switch (true) {
@@ -9,15 +9,18 @@ function errorHandler(err, req, res) {
                 return res.status(statusCode).json({ message: err })
             }
         // joi validation error
-        
+
         // custom object error
         case (typeof err === 'object' && err.statusCode != null):
-            return res.status(err.statusCode).json({
+            {
+                return res.status(err.statusCode).json({
                 message: err.message
-            })
+            })}
 
         default:
-            return res.status(500).json({ message: err.message })
+            {
+                return res.status(500).json( {err} )
+            }
     }
 }
 

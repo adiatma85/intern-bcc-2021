@@ -5,10 +5,7 @@ const joiMiddleware = require('../middlewares/joiValidator')
 
 
 // Register a user
-// router.post('/register', joiMiddleware, user.create);
-router.post('/register', joiMiddleware, (req, res,) => {
-    res.send({message: "hello"})
-});
+router.post('/register', joiMiddleware, user.create);
 
 // Login a user
 router.post('/login', joiMiddleware, user.login)

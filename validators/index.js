@@ -1,5 +1,5 @@
 const userValidator = require('./user.validator')
-// const tweetValidator = require('./tweet.validator')
+const tweetValidator = require('./tweet.validator')
 
 module.exports = {
     // User validation
@@ -8,4 +8,5 @@ module.exports = {
     '/user/update': userValidator.updateProfileSchema
 
     // Tweet validation
+    '/tweet/create': tweetValidator.createSchema,
 }

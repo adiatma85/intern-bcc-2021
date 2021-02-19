@@ -22,7 +22,6 @@ function joiValidator(req, res, next) {
             const { value, error } = _schema.validate(req.body, _validationOptions)
 
             if (error) {
-                // console.log(error)
                 const JoiError = {
                     success: 'false',
                     error: {
@@ -41,11 +40,11 @@ function joiValidator(req, res, next) {
                 return res.status(422).json(useJoiError ? JoiError : customError)
             } else {
                 req.body = value
-                next()
+                return next()
             }
         }
     }
-    next()
+    return next()
 }
 
 module.exports = joiValidator
